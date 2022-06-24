@@ -1,6 +1,7 @@
 # Prénom, Nom, Matricule
 # Prénom, Nom, Matricule
 #DEFINITION VARIABLE
+#try
 import numpy as np
 import random as rand
 
