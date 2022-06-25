@@ -4,24 +4,28 @@
 import numpy as np
 import random as rand
 
+#c to remove : la classe colony est pr toutes les fourmies ("ants")
 class Colony:
     class Ant:
         def __init__(self, colony):
             self.colony = colony
+            #c to remove: self.pos = position actuelle de ant
             self.pos = rand.randrange(self.colony.n)
 
             self.mem = np.zeros(self.colony.n)
+            
+            #c to remove: self.mem is probably le niveau de phéromones
             self.mem[self.pos] = 1
-
+            #c to remove: self.path is the path que ant a empreinté pour se rendre à pos
             self.path = [self.pos]
+            #c to remove: self.cost = cost of the path from initial position
             self.cost = 0
 
         def reset(self, colony):
             self.__init__(colony)
 
         def __str__(self):
-            #TO DO
-            pass
+            return self.path + ', cost : ' + self.cost
 
         def __lt__(self, other):
             #TO DO
@@ -77,8 +81,8 @@ class Colony:
         self.q_0 =q_0
 
     def __str__(self):
-        # TODO
-        print("remove errors")
+        # TODO 
+        return 'Nearest Neighbor Heuristic Cost : '+ self.nearestNeighborHeuristic
 
     # Returns the cost of the solution produced by 
     # the nearest neighbor heuristix
