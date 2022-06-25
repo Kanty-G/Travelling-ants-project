@@ -1,7 +1,6 @@
 # Prénom, Nom, Matricule
 # Prénom, Nom, Matricule
-#DEFINITION VARIABLE
-#try
+
 import numpy as np
 import random as rand
 
@@ -69,7 +68,7 @@ class Colony:
 
         self.tau_0 = 1 / (self.n * self.nearestNeighborHeuristic())
         self.tau = [[self.tau_0 for _ in range(self.n)] for _ in range(self.n)]
-        self.ants = [self.Ant(self) for _ in range(self.m)]
+        self.ants = [self.Ant(self) for _ in range(m)]
 
         self.beta = beta
         self.alpha = 0.1
