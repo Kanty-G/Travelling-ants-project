@@ -1,5 +1,5 @@
-# Prénom, Nom, Matricule
-# Prénom, Nom, Matricule
+# Kanty Louange, Gakima, 20184109
+# Jonathan, Metila, Matricule
 
 import numpy as np
 import random as rand
@@ -31,8 +31,10 @@ class Colony:
         def policy(self):
             if rand.random() < self.colony.q_0:
                 # Deterministic decision
+                print("remove errors")
                 # TODO
             else:
+                print("remove errors")
                 # Stochastic decision
                 # TODO
 
@@ -68,7 +70,7 @@ class Colony:
 
         self.tau_0 = 1 / (self.n * self.nearestNeighborHeuristic())
         self.tau = [[self.tau_0 for _ in range(self.n)] for _ in range(self.n)]
-        self.ants = [self.Ant(self) for _ in range(m)]
+        self.ants = [self.Ant(self) for _ in range(self.m)]
 
         self.beta = beta
         self.alpha = 0.1
@@ -76,6 +78,7 @@ class Colony:
 
     def __str__(self):
         # TODO
+        print("remove errors")
 
     # Returns the cost of the solution produced by 
     # the nearest neighbor heuristix
