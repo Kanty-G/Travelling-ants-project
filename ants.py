@@ -9,16 +9,15 @@ class Colony:
     class Ant:
         def __init__(self, colony):
             self.colony = colony
-            #c to remove: self.pos = position actuelle de ant
+           
             self.pos = rand.randrange(self.colony.n)
 
             self.mem = np.zeros(self.colony.n)
-            
-            #c to remove: self.mem is probably le niveau de phéromones
+
             self.mem[self.pos] = 1
-            #c to remove: self.path is the path que ant a empreinté pour se rendre à pos
+
             self.path = [self.pos]
-            #c to remove: self.cost = cost of the path from initial position
+        
             self.cost = 0
 
         def reset(self, colony):
@@ -28,8 +27,7 @@ class Colony:
             return self.path + ', cost : ' + self.cost
 
         def __lt__(self, other):
-            #TO DO
-            pass
+            return self.cost < other.cost
 
         # Returns city to be travelled to from current position
         def policy(self):
