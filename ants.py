@@ -1,8 +1,12 @@
 # Kanty Louange, Gakima, 20184109
 # Jonathan, Metila, Matricule
 
+from operator import index
+from matplotlib.cbook import index_of
 import numpy as np
 import random as rand
+
+from sympy import O
 
 #c to remove : la classe colony est pr toutes les fourmies ("ants")
 class Colony:
@@ -11,6 +15,7 @@ class Colony:
             self.colony = colony
            
             self.pos = rand.randrange(self.colony.n)
+
 
             self.mem = np.zeros(self.colony.n)
 
@@ -24,7 +29,7 @@ class Colony:
             self.__init__(colony)
 
         def __str__(self):
-            return self.path + ', cost : ' + self.cost
+          return str(self.path)+ ', cost : ' + str(self.cost)
 
         def __lt__(self, other):
             return self.cost < other.cost
@@ -32,11 +37,25 @@ class Colony:
         # Returns city to be travelled to from current position
         def policy(self):
             if rand.random() < self.colony.q_0:
-                # Deterministic decision
-                print("remove errors")
-                # TODO
+                row = adjMat[self.pos]
+                nextCity = np.where(row == np.min(row[np.nonzero(row)]))
+                result = rand.choice(nextCity[0])
+                if (self.mem[result]!= 1):
+                   return result   
+                else: 
+                    pass
+                #on doit traiter le cas où le sommet est déjà visité   
+
             else:
-                print("remove errors")
+                #juste pour question de debuggage, la partie stochastique n'est pas résolue
+                row = adjMat[self.pos]
+                nextCity = np.where(row == np.min(row[np.nonzero(row)]))
+                result = rand.choice(nextCity[0])
+                if (self.mem[result]!= 1):
+                   return result   
+                else: 
+                    pass
+                #on doit traiter le cas où le sommet est déjà visité   
                 # Stochastic decision
                 # TODO
 
@@ -44,12 +63,17 @@ class Colony:
         # while keeping track of total cost and path
         def move(self):
             destination = self.policy()
-
             # local updating
-            # TODO
+            t0 = adjMat[self.pos][destination]
+            #bug: self.cost reste à 0, à résoudre
+            self.cost = self.cost + t0
+            #il faut changer le niveau de phéromones ici
 
             # Change position
-            # TODO
+            self.pos = destination
+            self.mem[destination]= 1
+            self.path.append(destination)
+            
 
 
         # Updates the pheromone levels of ALL edges that form 
@@ -70,9 +94,10 @@ class Colony:
         self.adjMat = adjMat
         self.n = len(adjMat)
 
+
         self.tau_0 = 1 / (self.n * self.nearestNeighborHeuristic())
         self.tau = [[self.tau_0 for _ in range(self.n)] for _ in range(self.n)]
-        self.ants = [self.Ant(self) for _ in range(self.m)]
+        self.ants = [self.Ant(self) for _ in range(m)]
 
         self.beta = beta
         self.alpha = 0.1
@@ -80,16 +105,14 @@ class Colony:
 
     def __str__(self):
         # TODO 
-        return 'Nearest Neighbor Heuristic Cost : '+ self.nearestNeighborHeuristic
+        return ('Nearest Neighbor Heuristic Cost : '+ str(self.nearestNeighborHeuristic))
 
     # Returns the cost of the solution produced by 
     # the nearest neighbor heuristix
     def nearestNeighborHeuristic(self):
         costs = np.zeros(self.n)
-
         # TODO
-
-        return min(costs)
+        pass
 
     # Heuristic function
     # Returns inverse of smallest distance between r and u
