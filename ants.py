@@ -1,12 +1,9 @@
 # Kanty Louange, Gakima, 20184109
 # Jonathan, Metila, Matricule
 
-from operator import index
-from matplotlib.cbook import index_of
 import numpy as np
 import random as rand
 
-from sympy import O
 
 #c to remove : la classe colony est pr toutes les fourmies ("ants")
 class Colony:
@@ -38,24 +35,39 @@ class Colony:
         def policy(self):
             if rand.random() < self.colony.q_0:
                 row = adjMat[self.pos]
+                rowCopy = np.copy(row)
                 nextCity = np.where(row == np.min(row[np.nonzero(row)]))
                 result = rand.choice(nextCity[0])
                 if (self.mem[result]!= 1):
-                   return result   
-                else: 
-                    pass
-                #on doit traiter le cas où le sommet est déjà visité   
+                    
+                    return result   
+                else:
+                    #si le sommet est déjà visité, le coût de l'arête est mis à 0 dans la copie de
+                    #la ligne pour chercher un autre minimum
+                    #bug:ça marche juste pour 2 à 3 itérations
+                    rowCopy[result] = 0
+                    nextCity = np.where(rowCopy == np.min(rowCopy[np.nonzero(rowCopy)]))
+                    result = rand.choice(nextCity[0])
+                    return result
+                #voir si le cas sommet visité fonctionne 
 
             else:
                 #juste pour question de debuggage, la partie stochastique n'est pas résolue
                 row = adjMat[self.pos]
+                rowCopy = np.copy(row)
                 nextCity = np.where(row == np.min(row[np.nonzero(row)]))
                 result = rand.choice(nextCity[0])
                 if (self.mem[result]!= 1):
-                   return result   
-                else: 
-                    pass
-                #on doit traiter le cas où le sommet est déjà visité   
+                    return result   
+                else:
+                    #si le sommet est déjà visité, le coût de l'arête est mis à 0 dans la copie de
+                    #la ligne pour chercher un autre minimum
+                    rowCopy[result] = 0
+                    nextCity = np.where(rowCopy == np.min(rowCopy[np.nonzero(rowCopy)]))
+                    result = rand.choice(nextCity[0])
+                
+                    return result
+                #voir si le cas sommet visité fonctionne 
                 # Stochastic decision
                 # TODO
 
@@ -66,7 +78,7 @@ class Colony:
             # local updating
             t0 = adjMat[self.pos][destination]
             #bug: self.cost reste à 0, à résoudre
-            self.cost = self.cost + t0
+            self.cost += t0
             #il faut changer le niveau de phéromones ici
 
             # Change position
@@ -74,7 +86,6 @@ class Colony:
             self.mem[destination]= 1
             self.path.append(destination)
             
-
 
         # Updates the pheromone levels of ALL edges that form 
         # the minimum cost loop at each iteration
@@ -104,7 +115,6 @@ class Colony:
         self.q_0 =q_0
 
     def __str__(self):
-        # TODO 
         return ('Nearest Neighbor Heuristic Cost : '+ str(self.nearestNeighborHeuristic))
 
     # Returns the cost of the solution produced by 
@@ -112,7 +122,7 @@ class Colony:
     def nearestNeighborHeuristic(self):
         costs = np.zeros(self.n)
         # TODO
-        pass
+        return min(costs)
 
     # Heuristic function
     # Returns inverse of smallest distance between r and u
